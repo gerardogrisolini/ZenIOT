@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import NIO
 import ZenNIO
 import ZenPostgres
 import ZenIoT
