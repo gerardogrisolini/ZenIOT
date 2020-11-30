@@ -13,7 +13,11 @@ import ZenIoT
 
 
 /// SERVER
-let server = ZenNIO(host: "0.0.0.0")
+var port: Int = 8888
+if let portString = ProcessInfo.processInfo.environment["PORT"] {
+    port = Int(portString)!
+}
+let server = ZenNIO(host: "0.0.0.0", port: port)
 server.logger.logLevel = .trace
 server.addDocs()
 
