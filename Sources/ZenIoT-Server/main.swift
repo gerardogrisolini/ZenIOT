@@ -13,7 +13,7 @@ import ZenIoT
 
 
 /// SERVER
-let server = ZenNIO()
+let server = ZenNIO(host: "0.0.0.0")
 server.logger.logLevel = .trace
 server.addDocs()
 
@@ -52,7 +52,8 @@ if let service = parseConnectionStringMqtt() {
 
 /// PARSE CONNECTIONS FROM ENV
 private func parseConnectionStringDatabase() -> PostgresConfig {
-    if let databaseUrl = ProcessInfo.processInfo.environment["DATABASE_URL"] {
+    //if let databaseUrl = ProcessInfo.processInfo.environment["DATABASE_URL"] {
+    let databaseUrl = "postgres://bsgypomkmenblj:31b5b5ebbcbfc43cdcf9613a4d8de6024b846ecc21564a2ae68ae330483942d9@ec2-46-137-124-19.eu-west-1.compute.amazonaws.com:5432/d3amn01pf63qgp"
         var url = databaseUrl.replacingOccurrences(of: "postgres://", with: "")
         var index = url.index(before: url.firstIndex(of: ":")!)
         let username = url[url.startIndex...index].description
@@ -84,18 +85,18 @@ private func parseConnectionStringDatabase() -> PostgresConfig {
             maximumConnections: 10,
             logger: server.logger
         )
-    }
-
-    return PostgresConfig(
-        host: "localhost",
-        port: 5432,
-        tls: false,
-        username: "gerardo",
-        password: "",
-        database: "mqtt",
-        maximumConnections: 10,
-        logger: server.logger
-    )
+//    }
+//
+//    return PostgresConfig(
+//        host: "localhost",
+//        port: 5432,
+//        tls: false,
+//        username: "gerardo",
+//        password: "",
+//        database: "mqtt",
+//        maximumConnections: 10,
+//        logger: server.logger
+//    )
 }
 
 private func parseConnectionStringMqtt() -> MqttService? {
