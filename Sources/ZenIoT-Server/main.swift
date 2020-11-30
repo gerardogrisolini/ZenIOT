@@ -52,8 +52,7 @@ if let service = parseConnectionStringMqtt() {
 
 /// PARSE CONNECTIONS FROM ENV
 private func parseConnectionStringDatabase() -> PostgresConfig {
-    //if let databaseUrl = ProcessInfo.processInfo.environment["DATABASE_URL"] {
-    let databaseUrl = "postgres://bsgypomkmenblj:31b5b5ebbcbfc43cdcf9613a4d8de6024b846ecc21564a2ae68ae330483942d9@ec2-46-137-124-19.eu-west-1.compute.amazonaws.com:5432/d3amn01pf63qgp"
+    if let databaseUrl = ProcessInfo.processInfo.environment["DATABASE_URL"] {
         var url = databaseUrl.replacingOccurrences(of: "postgres://", with: "")
         var index = url.index(before: url.firstIndex(of: ":")!)
         let username = url[url.startIndex...index].description
@@ -85,23 +84,22 @@ private func parseConnectionStringDatabase() -> PostgresConfig {
             maximumConnections: 10,
             logger: server.logger
         )
-//    }
-//
-//    return PostgresConfig(
-//        host: "localhost",
-//        port: 5432,
-//        tls: false,
-//        username: "gerardo",
-//        password: "",
-//        database: "mqtt",
-//        maximumConnections: 10,
-//        logger: server.logger
-//    )
+    }
+
+    return PostgresConfig(
+        host: "localhost",
+        port: 5432,
+        tls: false,
+        username: "gerardo",
+        password: "",
+        database: "mqtt",
+        maximumConnections: 10,
+        logger: server.logger
+    )
 }
 
 private func parseConnectionStringMqtt() -> MqttService? {
-//    if let mqttUrl = ProcessInfo.processInfo.environment["CLOUDAMQP_URL"] {
-    let mqttUrl = "amqps://tmhtseai:Elpycwnwdx5ZZoxMvP49kcSNmG8zl3q9@squid.rmq.cloudamqp.com/tmhtseai"
+    if let mqttUrl = ProcessInfo.processInfo.environment["CLOUDAMQP_URL"] {
     
         let url = mqttUrl.replacingOccurrences(of: "amqps://", with: "")
         var index = url.index(before: url.firstIndex(of: ":")!)
@@ -118,7 +116,7 @@ private func parseConnectionStringMqtt() -> MqttService? {
         username += ":\(url[index2...])"
        
         return MqttService(host: host, username: username, password: password, eventLoopGroup: server.eventLoopGroup)
-//    }
-//
-//    return nil
+    }
+
+    return nil
 }
